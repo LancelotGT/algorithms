@@ -7,7 +7,7 @@
 #define __GRAPH_H__
 
 #include <string>
-#include <set>
+#include <list>
 
 class Graph
 {
@@ -29,9 +29,8 @@ public:
 private:
     int V;
     int E; 
-    std::multiset< std::pair<int, int> > edges;
+    std::list< std::pair<int, int> > edges;
     bool verbose;
-    void exch(int& v, int& u);
     void changeEdge(int v, int w); // change edge with w to be with w 
 
 };

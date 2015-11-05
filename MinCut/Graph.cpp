@@ -81,14 +81,14 @@ int Graph::getE()
 
 void Graph::addEdge(int v, int w)
 {
-    edges.insert(pair<int, int>(v, w));
+    edges.push_back(pair<int, int>(v, w));
     E++;
 }
 
 void Graph::changeEdge(int v, int w)
 {
     vector< pair<int, int> > t;
-    for (multiset< pair<int, int> >::iterator it = edges.begin(); it != edges.end(); )
+    for (list< pair<int, int> >::iterator it = edges.begin(); it != edges.end(); )
     {
         if (it->first == w)
         {
@@ -107,28 +107,21 @@ void Graph::changeEdge(int v, int w)
     }
 
     for (vector< pair<int, int> >::iterator it = t.begin(); it != t.end(); it++)
-        edges.insert(*it);
-}
-
-void Graph::exch(int& v, int& u)
-{
-    int temp = v;
-    v = u;
-    u = temp;
+        edges.push_back(*it);
 }
 
 void Graph::printGraph()
 {
     cout << "V: " << V << endl;
     cout << "E: " << E << endl; 
-    for (multiset< pair<int, int> >::iterator it = edges.begin(); it != edges.end(); ++it)
+    for (list< pair<int, int> >::iterator it = edges.begin(); it != edges.end(); ++it)
         cout << "(" << it->first << ", "  << it->second << ")" << endl;
 }
 
 void Graph::contract()
 {
     int size = edges.size();
-    multiset< pair<int, int> >::iterator it = edges.begin();
+    list< pair<int, int> >::iterator it = edges.begin();
     int s = rand() % size;
     for (int i = 0; i < s; i++)
         it++;
