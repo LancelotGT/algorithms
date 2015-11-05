@@ -5,7 +5,6 @@ A collection of small algorithms and data structures problems.
 - [Minimum Cut](#minimum-cut) 
 
 # <a name="counting-inversions"></a>Counting Inversions
--------------------
 This problem asks us to compute the number of inversions in an large array. For example, array `{1, 3, 5, 2, 4, 6}` has exactly three inversions.
 
 ## Brute-force
@@ -36,7 +35,6 @@ Inside the function for counting inversions for B and C, if the number from B is
 
 
 # <a name="quick-sort"></a>Quick Sort
----------
 This problem ask us to calculate the total number of comparisons used in quicksort. In particular, we use this statistics to compare different pivot selection strategy.
 
 ## Three pivot selection strategy
@@ -50,7 +48,6 @@ The results are
 * median-of-three: 138382 comparisons 
 
 # <a name="minimum-cut"></a>Minimum Cut
------------
 Minimum cut is a classic graph problem that ask us to divide a graph into two halves with minimum crossing edges between the two parts.
 
 Consider a graph
