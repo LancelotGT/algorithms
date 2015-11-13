@@ -79,3 +79,32 @@ To reduce the amount of memory used, I don't store the graph as adjacent lists b
 Above is not my first implementation, in my first implementation, I tried to use adjacent list to solve this problem. I generated two random connected vertices at a time and remove one of them. This is a valid solution for small test cases, but it is not feasible for solving the 200 vertices case. Then I realized that choosing a random vertex is a BAD strategy. We should choose a random edge instead. Consider this, if we choose a random vertex, it is likely that it is one of the vertex on the min cut. However, if we choose a random edge, given that we have many more edges than vertices, the probabilty that this edge is on the min cut is a lot smaller. This is the reason that in my previous attempt, even though I run my solver for over 10000 iterations, it is not possible to find the global minimum cut.
 
 To summarize, this is definitely not a super efficient implementation. But I am able to get roughly 0.004 sec per iteration. With roughly 100 iterations, it can almost always find the correct answer. So I guess I'll just stop here.
+
+# <a name="minimum-cut"></a>Strongly Connected Component
+[Strongly Connected Component](http://www.columbia.edu/~cs2035/courses/csor4231.F15/scc.pdf) is another classic graph problem. It is defined on a graph that, within each SCC, there is one or more paths between any two vertices.
+
+# Kosaraju's Two-pass Algorithm
+Although this seems a rather complicated problem. The algorithm to compute SCC is surprisingly simple and efficient. It takes only O(m + n), just like normal DFS. The algorithm takes 3 major steps.
+
+1. Create another directed graph with all arcs reversed.
+2. Run DFS-Loop on the reversed graph. The detail of DFS-Loop is shown below.
+3. Run a second pass DFS-Loop on the original graph.
+
+```
+DFS-Loop:
+    Global t = 0
+    Global s = NULL
+    Assume the node is from 1 to n
+    For i from 1 to n
+        if i not yet explored
+            s = i
+            run DFS on i
+```
+Here the DFS is just like a normal DFS. However, when there is no more children to explore for a node, we need to increment the finish time t and keep record of the finish time for every node.
+
+# Problem
+Given a fairly large graph, we are asked to compute the strongly connected components and output the number of nodes in the 5 largest SCCs. The input file consists of a LOT of lines where each line represents a edge (u, v). The total number of vertices in this graph is 875714. So while the algorithm does not seem complicated at all, the tricky part is the implementation.
+
+In my implementation, I use a vector of vector<int> to represent a graph adjacent list. Some other data like finish time, explored array, visiting sequence are represented using arrays. My first trial is just to use the recursive DFS algorithm. However it runs out of memory given the graph is too large. So I change to an iterative implementation. But we need some minor modification on the original algorithm. For example, we cannot pop the vertex out of the stack only all of its children has been explored. We need to set the explored bit to be true when it is pushed into the stack, not when it is actually explored. This is to prevent that we add the same vertex more than once onto the stack before it has chance to be `actually` explored.
+
+As usual, with the gcc -O3 compilation flags, my code takes about 6 seconds to run, where more than 5 seconds are spent on reading input. Maybe I should learn a way to speed up this process.
